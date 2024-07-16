@@ -1,5 +1,5 @@
 import axios from "axios";
-import { parseCookies, setCookie } from "nookies";
+import { parseCookies } from "nookies";
 
 export const API_URL = `https://apark.dvg-project.com`;
 

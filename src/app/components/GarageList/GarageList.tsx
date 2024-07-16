@@ -1,14 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { garageService } from "@/app/services";
-import { SimpleGrid, Text, Heading, Container, Stack, Button, Spinner, useDisclosure, Box, Center } from "@chakra-ui/react";
-import { MyModal } from "@/app/components";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { SimpleGrid, Heading, Container, Spinner, useDisclosure, Box } from "@chakra-ui/react";
+import { MyModal, Garage, AutoList } from "@/app/components";
+import { garageService } from "@/app/services";
+import type { IGarage } from "@/app/types/global";
 
 export default function GarageList() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const [activeGarage, setActiveGarage] = useState(0);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const page = 1;
 
@@ -20,31 +21,24 @@ export default function GarageList() {
 
     return (
         <>
-            <Container maxW="1920px" mx="auto">
+            <Container maxW="1920px" mx="auto" minH="100vh">
                 {isLoading ? (
-                    <Center className="spinner">
+                    <Box className="spinner">
                         <Spinner />
-                    </Center>
+                    </Box>
                 ) : data?.data.length ? (
                     <>
                         <Heading as="h1">Гаражи</Heading>
                         <SimpleGrid gap={10} columns={[1, null, 2, 3]} spacing={[4, null, 6]} py={4}>
-                            {data.data.map((item: { id: number; name: string; description: string }) => (
-                                <Stack key={item.id} spacing={2} _hover={{ shadow: "md" }} p={2} border="1px" borderColor="gray.200">
-                                    <Heading as="h2" m={0}>
-                                        {item.name}
-                                    </Heading>
-                                    <Text m={0}>{item.description}</Text>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                            onOpen();
-                                            setActiveGarage(item.id);
-                                        }}
-                                    >
-                                        Добавить авто
-                                    </Button>
-                                </Stack>
+                            {data.data.map((item: IGarage) => (
+                                <Garage
+                                    key={item.id}
+                                    item={item}
+                                    addCar={() => {
+                                        onOpen();
+                                        setActiveGarage(item.id);
+                                    }}
+                                />
                             ))}
                         </SimpleGrid>
                     </>
@@ -53,7 +47,11 @@ export default function GarageList() {
                 )}
             </Container>
 
-            {isOpen && <MyModal onClose={onClose} isOpen={isOpen} activeGarage={activeGarage} />}
+            {isOpen && (
+                <MyModal onClose={onClose} isOpen={isOpen}>
+                    <AutoList activeGarage={activeGarage} />
+                </MyModal>
+            )}
         </>
     );
 }

@@ -5,12 +5,13 @@ import { setCookie } from "nookies";
 import { useMutation } from "@tanstack/react-query";
 import { GarageList } from "@/app/components";
 import { authService } from "@/app/services";
+import type { IUsers } from "@/app/types/global";
 
 export default function Home() {
     const [visibleContent, setVisibleContent] = useState(false);
 
     const mutation = useMutation({
-        mutationFn: (arg: { username: string; password: string }) => {
+        mutationFn: (arg: IUsers) => {
             return authService.auth(arg);
         },
         onSuccess: async (data) => {

@@ -7,8 +7,8 @@ class AutoService {
     async getByGarageId(garageId: number) {
         return $api.get(`/car/?garage_id=${garageId}`);
     }
-    async changeGarage(arg: { garage: number | null }) {
-        return $api.put(`/car/`, arg);
+    async changeGarage(arg: { garage: number | null; id: number }) {
+        return $api.put(`/car/${arg.id}`, arg);
     }
 }
 
