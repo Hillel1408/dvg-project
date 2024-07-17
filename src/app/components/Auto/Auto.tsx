@@ -14,11 +14,11 @@ export default function Auto({ item, activeGarage, deleteAuto, addAuto }: AutoPr
             <Text m={0}>{item.model}</Text>
 
             {item.garage === activeGarage ? (
-                <Button variant="outline" onClick={deleteAuto}>
+                <Button backgroundColor="red" color="white" _hover={{ backgroundColor: "" }} onClick={deleteAuto}>
                     Удалить из гаража
                 </Button>
             ) : (
-                <Button variant="outline" onClick={addAuto}>
+                <Button backgroundColor="Green" color="white" _hover={{ backgroundColor: "" }} onClick={addAuto}>
                     Добавить в гараж
                 </Button>
             )}
