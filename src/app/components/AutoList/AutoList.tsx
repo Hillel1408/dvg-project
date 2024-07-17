@@ -22,6 +22,9 @@ export default function AutoList({ activeGarage }: AutoListProps) {
         onSuccess: async () => {
             await refetch();
         },
+        onError: (data) => {
+            alert(data.message);
+        },
     });
 
     return (
